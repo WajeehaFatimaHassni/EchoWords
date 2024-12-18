@@ -46,7 +46,7 @@ struct HomeView: View {
         NavigationView {
             ZStack {
                 LinearGradient(
-                    gradient: Gradient(colors: [Color.blue.opacity(0.8), Color.green.opacity(0.6)]),
+                    gradient: Gradient(colors: [Color.pink.opacity(0.8), Color.blue.opacity(0.8)]),
                     startPoint: .top,
                     endPoint: .bottom
                 )
@@ -57,15 +57,16 @@ struct HomeView: View {
                         .font(.largeTitle)
                         .fontWeight(.bold)
                         .foregroundColor(.white)
+                        .shadow(color: Color.blue, radius: 5)
 
                     ProgressCircle(progress: 0.7)
-                        .frame(width: 150, height: 150)
+                        .frame(width: 180, height: 180)
 
                     ScrollView(.horizontal, showsIndicators: false) {
-                        HStack(spacing: 15) {
-                            DeckCard(title: "Spanish Basics", imageName: "globe")
-                            DeckCard(title: "French Phrases", imageName: "book")
-                            DeckCard(title: "Italian Vocabulary", imageName: "flag.italy")
+                        HStack(spacing: 20) {
+                            DeckCard(title: "Spanish Basics", imageName: "globe", colors: [Color.red, Color.orange])
+                            DeckCard(title: "French Basics", imageName: "book", colors: [Color.purple, Color.blue])
+                            DeckCard(title: "Italian Vocabulary", imageName: "flag.italy", colors: [Color.green, Color.teal])
                         }
                         .padding(.horizontal)
                     }
@@ -78,9 +79,9 @@ struct HomeView: View {
                             .foregroundColor(.white)
                             .padding()
                             .frame(maxWidth: .infinity)
-                            .background(LinearGradient(gradient: Gradient(colors: [Color.blue, Color.purple]), startPoint: .leading, endPoint: .trailing))
-                            .cornerRadius(12)
-                            .shadow(color: Color.purple.opacity(0.5), radius: 10, x: 0, y: 5)
+                            .background(LinearGradient(gradient: Gradient(colors: [Color.purple, Color.blue]), startPoint: .leading, endPoint: .trailing))
+                            .cornerRadius(15)
+                            .shadow(color: Color.purple.opacity(0.8), radius: 10, x: 0, y: 5)
                     }
                     .padding(.horizontal)
 
@@ -92,9 +93,9 @@ struct HomeView: View {
                             .foregroundColor(.white)
                             .padding()
                             .frame(maxWidth: .infinity)
-                            .background(LinearGradient(gradient: Gradient(colors: [Color.green, Color.teal]), startPoint: .leading, endPoint: .trailing))
-                            .cornerRadius(12)
-                            .shadow(color: Color.green.opacity(0.5), radius: 10, x: 0, y: 5)
+                            .background(LinearGradient(gradient: Gradient(colors: [Color.green, Color.yellow]), startPoint: .leading, endPoint: .trailing))
+                            .cornerRadius(15)
+                            .shadow(color: Color.green.opacity(0.8), radius: 10, x: 0, y: 5)
                     }
                     .padding(.horizontal)
                 }
@@ -105,6 +106,7 @@ struct HomeView: View {
                         Text("EchoWords")
                             .font(.headline)
                             .foregroundColor(.white)
+                            .shadow(color: Color.blue, radius: 5)
                     }
                 }
             }
@@ -120,19 +122,21 @@ struct ProgressCircle: View {
             Circle()
                 .stroke(lineWidth: 12)
                 .opacity(0.3)
-                .foregroundColor(Color.white)
+                .foregroundColor(.white)
 
             Circle()
                 .trim(from: 0.0, to: progress)
                 .stroke(style: StrokeStyle(lineWidth: 12, lineCap: .round, lineJoin: .round))
                 .foregroundColor(progress > 0.5 ? .green : .red)
                 .rotationEffect(Angle(degrees: 270))
+                .shadow(color: (progress > 0.5 ? Color.green : Color.red).opacity(0.6), radius: 8)
                 .animation(.easeOut, value: progress)
 
             Text(String(format: "%.0f%%", min(progress, 1.0) * 100.0))
                 .font(.title2)
                 .fontWeight(.bold)
                 .foregroundColor(.white)
+                .shadow(color: Color.blue, radius: 5)
         }
     }
 }
@@ -140,6 +144,7 @@ struct ProgressCircle: View {
 struct DeckCard: View {
     var title: String
     var imageName: String
+    var colors: [Color]
 
     var body: some View {
         VStack {
@@ -150,33 +155,32 @@ struct DeckCard: View {
                 .padding()
                 .background(Color.white.opacity(0.9))
                 .cornerRadius(25)
+                .shadow(color: colors.last!.opacity(0.7), radius: 10)
 
             Text(title)
                 .font(.headline)
                 .foregroundColor(.white)
                 .padding(.top, 8)
         }
-        .frame(width: 160, height: 180)
-        .background(LinearGradient(
-            gradient: Gradient(colors: [Color.green, Color.teal]),
-            startPoint: .topLeading,
-            endPoint: .bottomTrailing
-        ))
+        .frame(width: 160, height: 200)
+        .background(LinearGradient(gradient: Gradient(colors: colors), startPoint: .topLeading, endPoint: .bottomTrailing))
         .cornerRadius(20)
-        .shadow(radius: 5)
+        .shadow(color: colors.last!.opacity(0.8), radius: 10)
     }
 }
 
 struct LearnView: View {
     var body: some View {
         ZStack {
-            Color.yellow.ignoresSafeArea()
+            LinearGradient(gradient: Gradient(colors: [Color.yellow, Color.orange]), startPoint: .top, endPoint: .bottom)
+                .ignoresSafeArea()
 
             VStack {
                 Text("Start Learning")
                     .font(.title)
                     .fontWeight(.bold)
                     .foregroundColor(.white)
+                    .shadow(color: Color.orange, radius: 5)
 
                 Spacer()
             }
@@ -188,13 +192,15 @@ struct LearnView: View {
 struct StatsView: View {
     var body: some View {
         ZStack {
-            Color.orange.ignoresSafeArea()
+            LinearGradient(gradient: Gradient(colors: [Color.orange, Color.red]), startPoint: .top, endPoint: .bottom)
+                .ignoresSafeArea()
 
             VStack {
                 Text("Your Stats")
                     .font(.title)
                     .fontWeight(.bold)
                     .foregroundColor(.white)
+                    .shadow(color: Color.red, radius: 5)
 
                 Spacer()
             }
@@ -206,13 +212,15 @@ struct StatsView: View {
 struct ProfileView: View {
     var body: some View {
         ZStack {
-            Color.purple.ignoresSafeArea()
+            LinearGradient(gradient: Gradient(colors: [Color.purple, Color.pink]), startPoint: .top, endPoint: .bottom)
+                .ignoresSafeArea()
 
             VStack {
                 Text("Your Profile")
                     .font(.title)
                     .fontWeight(.bold)
                     .foregroundColor(.white)
+                    .shadow(color: Color.pink, radius: 5)
 
                 Spacer()
             }
